@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import './App.css';
+import AddContact from './components/AddContact';
+import UpdateContact from './components/UpdateContact';
+import DeleteContact from './components/DeleteContact';
+import SearchContact from './components/SearchContact';
+import ListContacts from './components/ListContacts';
 
 const ContactManager = () => {
   const [contacts, setContacts] = useState([]);
@@ -42,34 +47,16 @@ const ContactManager = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>iFRIEND Contacts Organizer</h1>
-      <ul>
-        <li>
-          <button onClick={addContact}>Add Contact</button>
-        </li>
-        <li>
-          <button onClick={updateContact}>Update Contact</button>
-        </li>
-        <li>
-          <button onClick={deleteContact}>Delete Contact</button>
-        </li>
-        <li>
-          <button onClick={searchContact}>Search Contact</button>
-        </li>
-        <li>
-          <button onClick={listContacts}>List Contacts</button>
-        </li>
-        <li>
-          <button onClick={exit}>Exit</button>
-        </li>
-      </ul>
+      <AddContact addContact={addContact} />
+      <UpdateContact updateContact={updateContact} />
+      <DeleteContact deleteContact={deleteContact} />
+      <SearchContact searchContact={searchContact} />
+      <ListContacts listContacts={listContacts} contacts={contacts} />
+      <button onClick={exit}>Exit</button>
     </div>
   );
 };
 
-function App() {
-  return <ContactManager />;
-}
-
-export default App;
+export default ContactManager;
