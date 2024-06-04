@@ -43,7 +43,7 @@ const UpdateContact = ({ updateContact, contacts }) => {
       <h2>Update Contact</h2>
       <select onChange={handleContactSelect}>
         <option value="">Select a contact</option>
-        {contacts.map((contact) => (
+        {contacts && contacts.map((contact) => (
           <option key={contact.id} value={contact.id}>
             {contact.name}
           </option>
@@ -51,47 +51,7 @@ const UpdateContact = ({ updateContact, contacts }) => {
       </select>
       {selectedContact && (
         <div>
-          <label>
-            Name:
-            <input
-              type="text"
-              value={updatedName}
-              onChange={(e) => setUpdatedName(e.target.value)}
-            />
-          </label>
-          <label>
-            Phone Number:
-            <input
-              type="text"
-              value={updatedPhoneNumber}
-              onChange={(e) => setUpdatedPhoneNumber(e.target.value)}
-            />
-          </label>
-          <label>
-            Company Name:
-            <input
-              type="text"
-              value={updatedCompanyName}
-              onChange={(e) => setUpdatedCompanyName(e.target.value)}
-            />
-          </label>
-          <label>
-            Salary:
-            <input
-              type="number"
-              value={updatedSalary}
-              onChange={(e) => setUpdatedSalary(e.target.value)}
-            />
-          </label>
-          <label>
-            Birthday:
-            <input
-              type="text"
-              value={updatedBirthday}
-              onChange={(e) => setUpdatedBirthday(e.target.value)}
-            />
-          </label>
-          <button onClick={handleUpdate}>Update Contact</button>
+          {/* ... (rest of the component) */}
         </div>
       )}
     </div>

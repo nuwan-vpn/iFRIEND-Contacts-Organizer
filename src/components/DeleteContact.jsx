@@ -19,7 +19,7 @@ const DeleteContact = ({ deleteContact, contacts }) => {
       <h2>Delete Contact</h2>
       <select onChange={handleContactSelect}>
         <option value="">Select a contact</option>
-        {contacts.map((contact) => (
+        {contacts && contacts.map((contact) => (
           <option key={contact.id} value={contact.id}>
             {contact.name}
           </option>
