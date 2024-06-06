@@ -1,59 +1,59 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useParams, useHistory } from 'react-router-dom';
 
-const UpdateContact = ({ updateContact, contacts }) => {
-  const [selectedContact, setSelectedContact] = useState(null);
-  const [updatedName, setUpdatedName] = useState('');
-  const [updatedPhoneNumber, setUpdatedPhoneNumber] = useState('');
-  const [updatedCompanyName, setUpdatedCompanyName] = useState('');
-  const [updatedSalary, setUpdatedSalary] = useState(0);
-  const [updatedBirthday, setUpdatedBirthday] = useState('');
+const UpdateContact = () => {
+  const { id } = useParams();
+  const [contact, setContact] = useState({
+    name: '',
+    phoneNumber: '',
+    companyName: '',
+    salary: '',
+    birthday: '',
+  });
+  const history = useHistory();
 
-  const handleContactSelect = (e) => {
-    const selectedId = e.target.value;
-    const contact = contacts.find((contact) => contact.id === selectedId);
-    setSelectedContact(contact);
-    setUpdatedName(contact.name);
-    setUpdatedPhoneNumber(contact.phoneNumber);
-    setUpdatedCompanyName(contact.companyName);
-    setUpdatedSalary(contact.salary);
-    setUpdatedBirthday(contact.birthday);
-  };
+  useEffect(() => {
+    axios.get(`http://localhost:8080/api/v1/contacts/${id}`)
+      .then(response => setContact(response.data))
+      .catch(error => console.error('Error fetching contact:', error));
+  }, [id]);
 
-  const handleUpdate = () => {
-    const updatedContact = {
-      id: selectedContact.id,
-      name: updatedName,
-      phoneNumber: updatedPhoneNumber,
-      companyName: updatedCompanyName,
-      salary: updatedSalary,
-      birthday: updatedBirthday,
-    };
-    updateContact(updatedContact);
-    // Reset fields after update
-    setSelectedContact(null);
-    setUpdatedName('');
-    setUpdatedPhoneNumber('');
-    setUpdatedCompanyName('');
-    setUpdatedSalary(0);
-    setUpdatedBirthday('');
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    axios.patch(`http://localhost:8080/api/v1/contacts/${id}`, contact)
+      .then(() => {
+        history.push('/');
+      })
+      .catch(error => console.error('Error updating contact:', error));
   };
 
   return (
     <div>
       <h2>Update Contact</h2>
-      <select onChange={handleContactSelect}>
-        <option value="">Select a contact</option>
-        {contacts && contacts.map((contact) => (
-          <option key={contact.id} value={contact.id}>
-            {contact.name}
-          </option>
-        ))}
-      </select>
-      {selectedContact && (
+      <form onSubmit={handleUpdate}>
         <div>
-          {/* ... (rest of the component) */}
+          <label>Name:</label>
+          <input type="text" value={contact.name} onChange={(e) => setContact({ ...contact, name: e.target.value })} required />
         </div>
-      )}
+        <div>
+          <label>Phone Number:</label>
+          <input type="text" value={contact.phoneNumber} onChange={(e) => setContact({ ...contact, phoneNumber: e.target.value })} required />
+        </div>
+        <div>
+          <label>Company Name:</label>
+          <input type="text" value={contact.companyName} onChange={(e) => setContact({ ...contact, companyName: e.target.value })} required />
+        </div>
+        <div>
+          <label>Salary:</label>
+          <input type="number" value={contact.salary} onChange={(e) => setContact({ ...contact, salary: e.target.value })} required />
+        </div>
+        <div>
+          <label>Birthday:</label>
+          <input type="date" value={contact.birthday} onChange={(e) => setContact({ ...contact, birthday: e.target.value })} required />
+        </div>
+        <button type="submit">Update Contact</button>
+      </form>
     </div>
   );
 };
