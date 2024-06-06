@@ -9,7 +9,7 @@ import './App.css';
 const App = () => {
   return (
     <Router>
-      <div className="App">
+      <div>
         <h1>Contact Manager</h1>
         <Routes>
           <Route path="/" element={<ContactList />} />

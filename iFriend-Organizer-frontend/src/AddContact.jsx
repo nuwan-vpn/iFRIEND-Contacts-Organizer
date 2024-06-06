@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './AddContact.css';
 
 const AddContact = () => {
   const [name, setName] = useState('');
@@ -37,7 +38,7 @@ const AddContact = () => {
   };
 
   return (
-    <div>
+    <div className='add-contact'>
       <h2>Add Contact</h2>
       <form onSubmit={handleSubmit}>
         <div>
