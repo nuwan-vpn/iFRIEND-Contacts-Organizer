@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan
 @EnableWebMvc
 @Configuration
+
 public class WebAppConfig {
     
 }
