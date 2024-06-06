@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/ap/v1/contacts")
+@RequestMapping("/api/v1/contacts")
 @CrossOrigin
 public class ContactHttpController {
 
