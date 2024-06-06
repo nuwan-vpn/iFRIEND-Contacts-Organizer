@@ -1,5 +1,7 @@
 package com.vpn.api;
 
+import com.vpn.ContactRepository;
+import com.vpn.to.Contact;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,9 +10,24 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class ContactHttpController {
 
+    private final ContactRepository contactRepository;
+
+    public ContactHttpController(ContactRepository contactRepository) {
+        this.contactRepository = contactRepository;
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public  void createNewContact(){}
+    public  void createNewContact(@RequestBody Contact contactTO){
+        Contact contact = new Contact();
+        contact.setName(contactTO.getName());
+        contact.setPhoneNumber(contactTO.getPhoneNumber());
+        contact.setCompanyName(contactTO.getCompanyName());
+        contact.setSalary(contactTO.getSalary());
+        contact.setBirthday(contactTO.getBirthday());
+
+        contactRepository.save(contact);
+    }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(value = "/{contact-id}" , consumes = "application/json")
