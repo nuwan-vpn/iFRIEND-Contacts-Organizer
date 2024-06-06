@@ -1,36 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useParams, useHistory } from 'react-router-dom';
 
-const DeleteContact = ({ deleteContact, contacts }) => {
-  const [selectedContact, setSelectedContact] = useState(null);
+const DeleteContact = () => {
+  const { id } = useParams();
+  const [contact, setContact] = useState(null);
+  const history = useHistory();
 
-  const handleContactSelect = (e) => {
-    const selectedId = e.target.value;
-    const contact = contacts.find((contact) => contact.id === selectedId);
-    setSelectedContact(contact);
-  };
+  useEffect(() => {
+    axios.get(`http://localhost:8080/api/v1/contacts/${id}`)
+      .then(response => setContact(response.data))
+      .catch(error => console.error('Error fetching contact:', error));
+  }, [id]);
 
   const handleDelete = () => {
-    deleteContact(selectedContact.id);
-    setSelectedContact(null);
+    axios.delete(`http://localhost:8080/api/v1/contacts/${id}`)
+      .then(() => {
+        history.push('/');
+      })
+      .catch(error => console.error('Error deleting contact:', error));
   };
 
   return (
     <div>
       <h2>Delete Contact</h2>
-      <select onChange={handleContactSelect}>
-        <option value="">Select a contact</option>
-        {contacts && contacts.map((contact) => (
-          <option key={contact.id} value={contact.id}>
-            {contact.name}
-          </option>
-        ))}
-      </select>
-      {selectedContact && (
+      {contact && (
         <div>
-          <p>
-            Are you sure you want to delete the contact "{selectedContact.name}"?
-          </p>
-          <button onClick={handleDelete}>Delete Contact</button>
+          <p>Are you sure you want to delete the contact "{contact.name}"?</p>
+          <button onClick={handleDelete}>Delete</button>
+          <button onClick={() => history.push('/')}>Cancel</button>
         </div>
       )}
     </div>
