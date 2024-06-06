@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import './AddContact.css';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
-const AddContact = ({ addContact }) => {
+const AddContact = () => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [salary, setSalary] = useState('');
   const [birthday, setBirthday] = useState('');
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,68 +19,37 @@ const AddContact = ({ addContact }) => {
       salary: parseFloat(salary),
       birthday,
     };
-    addContact(newContact);
-    // Reset form fields after adding the contact
-    setName('');
-    setPhoneNumber('');
-    setCompanyName('');
-    setSalary('');
-    setBirthday('');
+
+    axios.post('http://localhost:8080/api/v1/contacts', newContact)
+      .then(() => {
+        history.push('/');
+      })
+      .catch(error => console.error('Error adding contact:', error));
   };
 
   return (
-    <div className="add-contact">
+    <div>
       <h2>Add Contact</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+          <label>Name:</label>
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
         </div>
         <div>
-          <label htmlFor="phoneNumber">Phone Number:</label>
-          <input
-            type="text"
-            id="phoneNumber"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            required
-          />
+          <label>Phone Number:</label>
+          <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
         </div>
         <div>
-          <label htmlFor="companyName">Company Name:</label>
-          <input
-            type="text"
-            id="companyName"
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
-            required
-          />
+          <label>Company Name:</label>
+          <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} required />
         </div>
         <div>
-          <label htmlFor="salary">Salary:</label>
-          <input
-            type="number"
-            id="salary"
-            value={salary}
-            onChange={(e) => setSalary(e.target.value)}
-            required
-          />
+          <label>Salary:</label>
+          <input type="number" value={salary} onChange={(e) => setSalary(e.target.value)} required />
         </div>
         <div>
-          <label htmlFor="birthday">Birthday:</label>
-          <input
-            type="text"
-            id="birthday"
-            value={birthday}
-            onChange={(e) => setBirthday(e.target.value)}
-            required
-          />
+          <label>Birthday:</label>
+          <input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} required />
         </div>
         <button type="submit">Add Contact</button>
       </form>
