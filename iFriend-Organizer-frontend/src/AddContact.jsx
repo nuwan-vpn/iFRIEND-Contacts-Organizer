@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 
 const AddContact = () => {
   const [name, setName] = useState('');
@@ -8,7 +8,7 @@ const AddContact = () => {
   const [companyName, setCompanyName] = useState('');
   const [salary, setSalary] = useState('');
   const [birthday, setBirthday] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,10 +21,19 @@ const AddContact = () => {
     };
 
     axios.post('http://localhost:8080/api/v1/contacts', newContact)
-      .then(() => {
-        history.push('/');
+      .then(response => {
+        console.log('Contact added:', response.data);
+        // Navigate to the contact list page after adding the contact
+        navigate('/');
       })
       .catch(error => console.error('Error adding contact:', error));
+    
+    // Reset form fields after adding the contact
+    setName('');
+    setPhoneNumber('');
+    setCompanyName('');
+    setSalary('');
+    setBirthday('');
   };
 
   return (
@@ -32,24 +41,54 @@ const AddContact = () => {
       <h2>Add Contact</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Name:</label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
         </div>
         <div>
-          <label>Phone Number:</label>
-          <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
+          <label htmlFor="phoneNumber">Phone Number:</label>
+          <input
+            type="text"
+            id="phoneNumber"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            required
+          />
         </div>
         <div>
-          <label>Company Name:</label>
-          <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} required />
+          <label htmlFor="companyName">Company Name:</label>
+          <input
+            type="text"
+            id="companyName"
+            value={companyName}
+            onChange={(e) => setCompanyName(e.target.value)}
+            required
+          />
         </div>
         <div>
-          <label>Salary:</label>
-          <input type="number" value={salary} onChange={(e) => setSalary(e.target.value)} required />
+          <label htmlFor="salary">Salary:</label>
+          <input
+            type="number"
+            id="salary"
+            value={salary}
+            onChange={(e) => setSalary(e.target.value)}
+            required
+          />
         </div>
         <div>
-          <label>Birthday:</label>
-          <input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} required />
+          <label htmlFor="birthday">Birthday:</label>
+          <input
+            type="text"
+            id="birthday"
+            value={birthday}
+            onChange={(e) => setBirthday(e.target.value)}
+            required
+          />
         </div>
         <button type="submit">Add Contact</button>
       </form>
