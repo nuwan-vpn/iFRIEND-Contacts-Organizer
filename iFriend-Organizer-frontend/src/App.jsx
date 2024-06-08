@@ -9,14 +9,18 @@ import './App.css';
 const App = () => {
   return (
     <Router>
-      <div>
-        <h1>Contact Manager</h1>
-        <Routes>
-          <Route path="/" element={<ContactList />} />
-          <Route path="/add" element={<AddContact />} />
-          <Route path="/update/:id" element={<UpdateContact />} />
-          <Route path="/delete/:id" element={<DeleteContact />} />
-        </Routes>
+      <div className="app-container">
+        <header>
+          <h1>Contact Manager</h1>
+        </header>
+        <main>
+          <Routes>
+            <Route path="/" element={<ContactList />} />
+            <Route path="/add" element={<AddContact />} />
+            <Route path="/update/:id" element={<UpdateContact />} />
+            <Route path="/delete/:id" element={<DeleteContact />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   );
