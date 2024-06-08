@@ -37,6 +37,9 @@ const ContactList = () => {
             <li key={contact.id}>
               <p>Name: {contact.name}</p>
               <p>Phone: {contact.phoneNumber}</p>
+              <p>Company: {contact.companyName}</p>
+              <p>Salary: {contact.salary}</p>
+              <p>Birthday: {contact.birthday}</p>
               <Link to={`/update/${contact.id}`}>Update</Link>
               <Link to={`/delete/${contact.id}`}>Delete</Link>
             </li>
